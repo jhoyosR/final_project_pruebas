@@ -27,6 +27,16 @@ class CategoryService {
 
         return $categories;
     }
+
+    /**
+     * Encuentra un registro
+     *
+     * @param  integer $id
+     * @return Category|null
+     */
+    public function find(int $id): ?Category {
+        return $this->categoryRepository->makeModel()->findOrFail($id);
+    }
     
     /**
      * Crea un registro
@@ -40,6 +50,43 @@ class CategoryService {
             $category = $this->categoryRepository->create($data->toArray());
 
             return $category;
+        });
+    }
+
+    /**
+     * Actualiza un registro
+     *
+     * @param  CategoryDTO $data
+     * @return Category
+     */
+    public function update(int $id, CategoryDTO $data): Category {
+        // Inicia una transacción
+        return DB::transaction(function () use ($id, $data) {
+
+            // Buscar o lanzar ModelNotFoundException automáticamente
+            $category = $this->find($id);
+
+            // Actualizar con los datos del DTO
+            $category->update($data->toArray());
+
+            return $category->fresh();
+        });
+    }
+
+    /**
+     * Elimina un registro
+     *
+     * @param  integer $id
+     * @return boolean
+     */
+    public function delete(int $id): void {
+        DB::transaction(function () use ($id) {
+
+            // Buscar o fallar
+            $category = $this->find($id);
+
+            // Eliminar
+            $category->delete();
         });
     }
 }

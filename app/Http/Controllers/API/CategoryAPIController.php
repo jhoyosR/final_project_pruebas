@@ -65,4 +65,68 @@ class CategoryAPIController extends Controller {
         );
     }
 
+    /**
+     * Muestra un categoria específico
+     * 
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse {
+
+        $category = $this->categoryService->find($id);
+
+        return $this->successResponse(
+            message: 'Datos obtenidos exitosamente',
+            result  : $category
+        );
+    }
+
+    /**
+     * Actualiza un categoria en la base de datos
+     * 
+     * @param  Request $request
+     * @param  int $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $id): JsonResponse {
+
+        // Validación de datos
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string']
+        ]);
+
+        // Responde con error de datos de formulario
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Datos inválidos',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        $category = $this->categoryService->update(
+            id: $id,
+            data: CategoryDTO::fromArray($request->all())
+        );
+
+        return $this->successResponse(
+            message: 'Registro actualizado exitosamente',
+            result  : $category
+        );
+    }
+
+    /**
+     * Elimina un categoria de la base de datos
+     * 
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse {
+
+        $this->categoryService->delete($id);
+
+        return $this->successResponse(
+            message: 'Registro eliminado exitosamente'
+        );
+    }
+
 }

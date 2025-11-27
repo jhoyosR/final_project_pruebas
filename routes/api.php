@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Rutas para administración de categorias
-Route::resource('categories', CategoryAPIController::class)->only('index', 'store');
+Route::resource('categories', CategoryAPIController::class)->except('edit');
