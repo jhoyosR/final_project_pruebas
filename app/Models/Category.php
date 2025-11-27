@@ -29,7 +29,8 @@ class Category extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'name' => 'string',
+        'name'       => 'string',
+        'created_at' => 'datetime'
     ];
 
     /**
@@ -37,7 +38,7 @@ class Category extends Model {
      *
      * @return HasMany
      */
-    // public function products(): HasMany {
-    //     return $this->hasMany(Product::class, 'category_id');
-    // }
+    public function products(): HasMany {
+        return $this->hasMany(Product::class, 'category_id');
+    }
 }

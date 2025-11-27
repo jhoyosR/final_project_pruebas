@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryAPIController;
+use App\Http\Controllers\API\ProductAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Rutas para administración de categorias
 Route::resource('categories', CategoryAPIController::class)->except('edit');
+// Rutas para administración de productos
+Route::resource('products', ProductAPIController::class)->except('edit');
