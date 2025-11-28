@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/view/products');
 });
+
+// Rutas para servir las vistas
+Route::view('/view/categories', 'categories.index');
+Route::view('/view/products', 'products.index');
