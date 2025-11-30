@@ -80,14 +80,14 @@ class ProductService {
      * @param  integer $id
      * @return boolean
      */
-    public function delete(int $id): void {
-        DB::transaction(function () use ($id) {
+    public function delete(int $id) {
+        return DB::transaction(function () use ($id) {
 
             // Buscar o fallar
             $product = $this->find($id);
 
             // Eliminar
-            $product->delete();
+            return $product->delete();
         });
     }
 }

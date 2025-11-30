@@ -79,14 +79,14 @@ class CategoryService {
      * @param  integer $id
      * @return boolean
      */
-    public function delete(int $id): void {
-        DB::transaction(function () use ($id) {
+    public function delete(int $id) {
+        return DB::transaction(function () use ($id) {
 
             // Buscar o fallar
             $category = $this->find($id);
 
             // Eliminar
-            $category->delete();
+            return $category->delete();
         });
     }
 }
