@@ -2,7 +2,7 @@
 
 namespace App\Transformers\Product;
 
-use App\Models\Product\Product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
