@@ -49,8 +49,25 @@ jobs:
       - name: Run Integration Tests
         run: ./vendor/bin/sail artisan test --testsuite=Feature
 
-      - name: Run System Tests
-        run: ./vendor/bin/sail artisan test --testsuite=System
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Start Laravel test server (host)
+        run: php artisan serve --port=8000 &
+        
+      - name: Wait for server to boot
+        run: npx wait-on http://localhost:8000
+
+      - name: Run Playwright tests
+        run: npx playwright test
         
       - name: Stop Sail Services
         if: always()
